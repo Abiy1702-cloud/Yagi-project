@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KG Transportation — St. Louis, MO</title>
+  <meta name="description" content="Safe, reliable medical and student transportation in St. Louis, Missouri." />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0a1f44;
+      --navy2: #132a5e;
+      --gold: #d4a843;
+      --goldf: #f0c96a;
+      --white: #fff;
+      --off: #f7f8fc;
+      --text: #1a1a2e;
+      --muted: #5a6278;
+      --border: #dde1ec;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.65; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 99;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%; height: 68px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.25);
+    }
+    .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+    .logo-box {
+      width: 38px; height: 38px; background: var(--gold); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 17px; color: var(--navy);
+    }
+    .logo-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; color: var(--white); line-height: 1.2; }
+    .logo-name small { display: block; font-size: 10px; font-weight: 500; color: var(--gold); letter-spacing: .07em; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,.8); text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: var(--gold) !important; color: var(--navy) !important; padding: 8px 18px; border-radius: 6px; }
+    .nav-cta:hover { background: var(--goldf) !important; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(130deg, var(--navy) 0%, var(--navy2) 100%);
+      padding: 80px 6% 72px; color: var(--white);
+    }
+    .hero-inner { max-width: 700px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(212,168,67,.15); border: 1px solid rgba(212,168,67,.3);
+      color: var(--goldf); font-size: 12px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; padding: 5px 13px; border-radius: 20px; margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif; font-weight: 800;
+      font-size: clamp(32px, 5vw, 52px); line-height: 1.1; letter-spacing: -.02em; margin-bottom: 18px;
+    }
+    .hero h1 em { font-style: normal; color: var(--gold); }
+    .hero p { font-size: 18px; color: rgba(255,255,255,.78); margin-bottom: 34px; max-width: 540px; }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 13px 26px; border-radius: 8px; font-weight: 700; font-size: 14px; text-decoration: none; transition: .2s; }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-gold:hover { background: var(--goldf); transform: translateY(-1px); }
+    .btn-ghost { border: 2px solid rgba(255,255,255,.35); color: var(--white); }
+    .btn-ghost:hover { border-color: var(--white); background: rgba(255,255,255,.08); }
+
+    /* TRUST STRIP */
+    .trust { background: var(--gold); padding: 14px 6%; }
+    .trust-row { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; }
+    .trust-item { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; color: var(--navy); display: flex; align-items: center; gap: 8px; }
+
+    /* SECTIONS */
+    section { padding: 72px 6%; }
+    .inner { max-width: 1020px; margin: 0 auto; }
+    .label { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    h2 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(24px, 3vw, 36px); color: var(--navy); letter-spacing: -.02em; margin-bottom: 14px; }
+    .lead { font-size: 17px; color: var(--muted); max-width: 520px; margin-bottom: 48px; }
+
+    /* SERVICES */
+    #services { background: var(--off); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+    .card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 32px 28px;
+      transition: box-shadow .2s, transform .2s; position: relative; overflow: hidden;
+    }
+    .card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:.3s; }
+    .card:hover { box-shadow: 0 8px 28px rgba(10,31,68,.1); transform: translateY(-3px); }
+    .card:hover::before { transform: scaleX(1); }
+    .card .icon { font-size: 34px; margin-bottom: 16px; }
+    .card h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 18px; color: var(--navy); margin-bottom: 10px; }
+    .card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+    .checklist { margin-top: 16px; list-style: none; }
+    .checklist li { font-size: 13px; color: var(--muted); padding: 5px 0; border-bottom: 1px solid var(--border); display: flex; gap: 8px; }
+    .checklist li:last-child { border: none; }
+    .checklist li::before { content:'✓'; color: var(--gold); font-weight: 700; }
+
+    /* CONTACT */
+    #contact { background: var(--off); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; align-items: start; }
+    .info-block {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;
+    }
+    .info-icon {
+      width: 42px; height: 42px; background: var(--navy); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    }
+    .info-block strong { display: block; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .info-block a, .info-block p { font-size: 15px; font-weight: 600; color: var(--navy); text-decoration: none; }
+    .info-block a:hover { color: var(--gold); }
+
+    /* FORM */
+    .form-wrap {
+      background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+      padding: 36px; box-shadow: 0 4px 20px rgba(10,31,68,.06);
+    }
+    .form-wrap h3 { font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .form-wrap .sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .fg { margin-bottom: 16px; }
+    .fg label { display: block; font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 6px; letter-spacing: .02em; }
+    .fg label .r { color: var(--gold); }
+    .fg input, .fg select, .fg textarea {
+      width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); background: var(--white);
+      outline: none; transition: border-color .2s, box-shadow .2s; appearance: none;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(10,31,68,.07); }
+    .fg textarea { resize: vertical; min-height: 100px; }
+    .fg select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6278' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 13px center; padding-right: 36px;
+    }
+    .submit {
+      width: 100%; padding: 14px; background: var(--navy); color: var(--white); border: none;
+      border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; letter-spacing: .04em; margin-top: 6px;
+      transition: background .2s, transform .15s;
+    }
+    .submit:hover { background: var(--navy2); transform: translateY(-1px); }
+    .submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .msg { margin-top: 14px; padding: 13px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; display: none; }
+    .msg.ok { background: #eafaf1; border: 1px solid #a3dfbd; color: #1a7a4a; display: block; }
+    .msg.err { background: #fff2f2; border: 1px solid #ffb3b3; color: #c0392b; display: block; }
+
+    /* FOOTER */
+    footer { background: var(--navy); color: rgba(255,255,255,.6); padding: 36px 6%; text-align: center; }
+    footer .logo { justify-content: center; margin-bottom: 12px; }
+    footer p { font-size: 13px; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* MOBILE STICKY CALL BAR */
+    .mobile-bar { display: none; }
+    @media (max-width: 720px) {
+      .mobile-bar {
+        display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+        background: var(--navy); box-shadow: 0 -2px 14px rgba(0,0,0,.25);
+      }
+      .mobile-bar a {
+        flex: 1; text-align: center; padding: 14px 8px; text-decoration: none;
+        font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px;
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+      }
+      .mobile-bar a:first-child { color: var(--white); border-right: 1px solid rgba(255,255,255,.15); }
+      .mobile-bar a:last-child { background: var(--gold); color: var(--navy); }
+      body { padding-bottom: 56px; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .contact-grid, .row2 { grid-template-columns: 1fr; }
+      .trust-row { gap: 14px 22px; justify-content: center; }
+      .hero { padding: 56px 6% 52px; }
+      section { padding: 52px 6%; }
+      .form-wrap { padding: 24px; }
+    }
+    @media (max-width: 420px) {
+      .hero-btns { flex-direction: column; }
+      .btn { text-align: center; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-box">KG</div>
+    <div class="logo-name">KG Transportation <small>St. Louis, Missouri</small></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#fleet">Fleet</a></li>
+    <li><a href="#drivers">Drivers</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Request a Ride</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="badge">📍 St. Louis &amp; St. Charles Counties · Missouri</div>
+    <h1>Safe Transport for <em>Every Journey</em></h1>
+    <p>KG Transportation provides professional medical and student transportation across Missouri — available 24 hours a day, 7 days a week, in all weather conditions.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-gold">Request a Ride</a>
+      <a href="tel:+13145550100" class="btn btn-ghost">📞 Call Us Now</a>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="trust-row">
+    <div class="trust-item">✅ Fully Insured</div>
+    <div class="trust-item">🕐 24/7 · All Weather</div>
+    <div class="trust-item">🛡️ Background-Checked Drivers</div>
+    <div class="trust-item">♿ Wheelchair Accessible</div>
+    <div class="trust-item">❤️ Compassionate Care</div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="inner">
+    <div class="label">What We Do</div>
+    <h2>Transportation You Can Count On</h2>
+    <p class="lead">From medical appointments to school drop-offs, we get you or your loved ones there safely — anywhere in St. Louis &amp; St. Charles counties.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">🏥</div>
+        <h3>Medical Transport</h3>
+        <p>Compassionate, comfortable rides for patients who need reliable non-emergency transportation, including wheelchair-accessible vehicles.</p>
+        <ul class="checklist">
+          <li>Doctor &amp; specialist visits</li>
+          <li>Dialysis &amp; chemotherapy</li>
+          <li>Physical therapy</li>
+          <li>Hospital discharge</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="icon">🎒</div>
+        <h3>Student Transport</h3>
+        <p>Safe, dependable rides that give parents peace of mind and keep students on schedule.</p>
+        <ul class="checklist">
+          <li>School morning &amp; afternoon routes</li>
+          <li>After-school programs</li>
+          <li>Extracurricular activities</li>
+          <li>Special education transport</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="icon">📅</div>
+        <h3>24/7 Scheduled Rides</h3>
+        <p>Available around the clock, every day of the week, in all weather — set up regular transportation with ease.</p>
+        <ul class="checklist">
+          <li>24 hours a day, 7 days a week</li>
+          <li>Available in all weather conditions</li>
+          <li>Flexible pickup windows</li>
+          <li>Advance &amp; recurring booking</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fleet" style="background:var(--white)">
+  <div class="inner">
+    <div class="label">Our Fleet</div>
+    <h2>A Vehicle for Every Need</h2>
+    <p class="lead">Our fleet is maintained on a strict, scheduled basis to keep every ride safe and comfortable.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">♿</div>
+        <h3>Handicap-Accessible Vehicles</h3>
+        <p>Wheelchair-equipped vehicles with ramps or lifts for safe, dignified transport.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🚐</div>
+        <h3>Vans</h3>
+        <p>Spacious vans ideal for group transport, students, and families.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🚙</div>
+        <h3>SUVs</h3>
+        <p>Comfortable SUVs for individual and small-group rides.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🚗</div>
+        <h3>Cars</h3>
+        <p>Reliable sedans for everyday appointments and errands.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="drivers" style="background:var(--off)">
+  <div class="inner">
+    <div class="label">Our Drivers</div>
+    <h2>Certified Professional Drivers</h2>
+    <p class="lead">Every KG Transportation driver is fully vetted and trained before they ever get behind the wheel.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">🛡️</div>
+        <h3>Background Checked</h3>
+        <p>All drivers pass comprehensive background checks before joining our team.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🧪</div>
+        <h3>Drug Tested</h3>
+        <p>Routine drug testing ensures every driver is fit and focused on the road.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🪪</div>
+        <h3>CDL Trained</h3>
+        <p>Drivers are trained and hold a Commercial Driver's License where required.</p>
+      </div>
+      <div class="card">
+        <div class="icon">❤️</div>
+        <h3>CPR Certified</h3>
+        <p>Trained in CPR and safety protocols for passenger wellbeing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="inner">
+    <div class="label">Get in Touch</div>
+    <h2>Ready to Book a Ride?</h2>
+    <p class="lead">Fill out the form and we'll respond promptly. For urgent needs, call or text us directly.</p>
+
+    <div class="contact-grid">
+      <div>
+        <div class="info-block">
+          <div class="info-icon">📞</div>
+          <div>
+            <strong>Phone / Text</strong>
+            <a href="tel:+13145550100">(314) 555-0100</a>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-icon">✉️</div>
+          <div>
+            <strong>Email</strong>
+            <a href="mailto:info@kgtransportation.com">info@kgtransportation.com</a>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-icon">📍</div>
+          <div>
+            <strong>Service Area</strong>
+            <p>St. Louis &amp; St. Charles Counties, Missouri</p>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-icon">🕐</div>
+          <div>
+            <strong>Hours</strong>
+            <p>Open 24/7 · 365 Days a Year</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-wrap">
+        <h3>Send Us a Message</h3>
+        <p class="sub">We'll respond within a few hours during business hours.</p>
+        <form id="cf">
+          <div class="row2">
+            <div class="fg">
+              <label>Full Name <span class="r">*</span></label>
+              <input name="name" type="text" placeholder="Jane Smith" required />
+            </div>
+            <div class="fg">
+              <label>Phone <span class="r">*</span></label>
+              <input name="phone" type="tel" placeholder="(314) 555-0000" required />
+            </div>
+          </div>
+          <div class="fg">
+            <label>Email <span class="r">*</span></label>
+            <input name="email" type="email" placeholder="jane@example.com" required />
+          </div>
+          <div class="row2">
+            <div class="fg">
+              <label>Service Needed <span class="r">*</span></label>
+              <select name="service" required>
+                <option value="" disabled selected>Select…</option>
+                <option value="Medical Transport">Medical / Non-Emergency</option>
+                <option value="Wheelchair Accessible">Wheelchair / Handicap Accessible</option>
+                <option value="Student Transport">Student Transport</option>
+                <option value="General Inquiry">General Inquiry</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Preferred Date</label>
+              <input name="date" type="date" />
+            </div>
+          </div>
+          <div class="fg">
+            <label>Notes</label>
+            <textarea name="notes" placeholder="Pickup address, destination, special needs, frequency…"></textarea>
+          </div>
+          <button class="submit" id="btn" type="submit">Send My Request →</button>
+          <div class="msg" id="msg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="logo">
+    <div class="logo-box">KG</div>
+    <div class="logo-name" style="color:#fff">KG Transportation <small>St. Louis, Missouri</small></div>
+  </a>
+  <p>© <span id="yr"></span> KG Transportation · St. Louis &amp; St. Charles Counties, MO ·
+    <a href="tel:+13145550100">(314) 555-0100</a> ·
+    <a href="mailto:info@kgtransportation.com">info@kgtransportation.com</a>
+  </p>
+</footer>
+
+<div class="mobile-bar">
+  <a href="tel:+13145550100">📞 Call Now</a>
+  <a href="#contact">📝 Request a Ride</a>
+</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  document.getElementById('cf').addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = e.target;
+    const btn = document.getElementById('btn');
+    const msg = document.getElementById('msg');
+    msg.className = 'msg';
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: f.name.value.trim(),
+          email: f.email.value.trim(),
+          phone: f.phone.value.trim(),
+          service: f.service.value,
+          date: f.date.value,
+          notes: f.notes.value.trim(),
+        }),
+      });
+      const d = await res.json();
+      msg.textContent = d.message;
+      msg.className = 'msg ' + (d.success ? 'ok' : 'err');
+      if (d.success) f.reset();
+    } catch {
+      msg.textContent = 'Network error. Please call us directly.';
+      msg.className = 'msg err';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Send My Request →';
+  });
+</script>
+</body>
+</html>
