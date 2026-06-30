@@ -1,31 +1,67 @@
 require('dotenv').config();
 const express = require('express');
-const nodemailer = require('nodemailer');
 const path = require('path');
 
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
-  port: 587,
-  auth: {
-    user: process.env.BREVO_USER,
-    pass: process.env.BREVO_SMTP_KEY,
-  },
+// Check required env vars on startup
+const REQUIRED_ENV = ['BREVO_API_KEY', 'BREVO_SENDER_EMAIL', 'KG_EMAIL'];
+const missing = REQUIRED_ENV.filter(k => !process.env[k]);
+if (missing.length) {
+  console.error('❌ MISSING ENV VARS:', missing.join(', '));
+  console.error('Set these in Render → your service → Environment tab.');
+} else {
+  console.log('✅ All required env vars are set.');
+}
+
+// Send email via Brevo's HTTPS API (port 443) instead of SMTP —
+// Render's free tier can block/timeout outbound SMTP ports, but HTTPS always works.
+async function sendBrevoEmail({ to, toName, subject, html }) {
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'api-key': process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { name: 'KG Transportation', email: process.env.BREVO_SENDER_EMAIL },
+      to: [{ email: to, name: toName || to }],
+      subject,
+      htmlContent: html,
+    }),
+  });
+
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(`Brevo API error (${res.status}): ${JSON.stringify(data)}`);
+  }
+  return data;
+}
+
+app.get('/health', (req, res) => {
+  res.json({
+    envVarsPresent: missing.length === 0,
+    missing,
+  });
 });
 
 app.post('/contact', async (req, res) => {
+  console.log('📩 /contact hit with body:', req.body);
+
   const { name, email, phone, service, date, notes } = req.body;
-  if (!name || !email || !phone)
+  if (!name || !email || !phone) {
+    console.log('⚠️ Validation failed — missing required field(s).');
     return res.status(400).json({ success: false, message: 'Please fill in all required fields.' });
+  }
 
   try {
     // Notify KG Transportation
-    await transporter.sendMail({
-      from: `"KG Transportation Website" <${process.env.BREVO_USER}>`,
+    const ownerResult = await sendBrevoEmail({
       to: process.env.KG_EMAIL,
+      toName: 'KG Transportation',
       subject: `New Ride Request from ${name}`,
       html: `<div style="font-family:Arial,sans-serif;max-width:560px">
         <div style="background:#0a1f44;padding:20px 28px;border-radius:8px 8px 0 0">
@@ -43,11 +79,12 @@ app.post('/contact', async (req, res) => {
         </div>
       </div>`,
     });
+    console.log('✅ Owner notification sent:', ownerResult.messageId);
 
     // Confirm to customer
-    await transporter.sendMail({
-      from: `"KG Transportation" <${process.env.BREVO_USER}>`,
+    const customerResult = await sendBrevoEmail({
       to: email,
+      toName: name,
       subject: 'We received your request — KG Transportation',
       html: `<div style="font-family:Arial,sans-serif;max-width:560px">
         <div style="background:#0a1f44;padding:20px 28px;border-radius:8px 8px 0 0">
@@ -69,10 +106,12 @@ app.post('/contact', async (req, res) => {
         </div>
       </div>`,
     });
+    console.log('✅ Customer confirmation sent:', customerResult.messageId);
 
     res.json({ success: true, message: "Request sent! Check your email for a confirmation — we'll be in touch soon." });
   } catch (err) {
-    console.error(err);
+    console.error('❌ EMAIL SEND FAILED:', err.message);
+    console.error('Full error:', JSON.stringify(err, null, 2));
     res.status(500).json({ success: false, message: 'Email error. Please call us directly.' });
   }
 });
