@@ -50,14 +50,25 @@
       min-height: 88vh;
       display: flex; align-items: center;
       background-image:
-        linear-gradient(135deg, rgba(10,31,68,0.88) 0%, rgba(10,31,68,0.65) 60%, rgba(10,31,68,0.45) 100%),
-        url('/images/Car1.jpg');
+        linear-gradient(135deg, rgba(10,31,68,0.92) 0%, rgba(10,31,68,0.85) 50%, rgba(10,31,68,0.60) 100%),
+        url('/images/Car1.JPG');
       background-size: cover;
       background-position: center;
       padding: 80px 6%;
       color: var(--white);
     }
-    .hero-inner { max-width: 660px; }
+    .hero-inner {
+      max-width: 1060px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .hero-text { max-width: 580px; }
+    .hero-img-wrap {
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+      aspect-ratio: 4/3;
+      border: 3px solid rgba(212,168,67,0.35);
+    }
+    .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .badge {
       display: inline-flex; align-items: center; gap: 7px;
       background: rgba(212,168,67,.18); border: 1px solid rgba(212,168,67,.4);
@@ -194,7 +205,7 @@
     #mission {
       background-image:
         linear-gradient(135deg, rgba(10,31,68,.92) 0%, rgba(10,31,68,.80) 100%),
-        url('/images/Car2.jpg');
+        url('/images/Car2.JPG');
       background-size: cover; background-position: center;
       padding: 90px 6%; color: var(--white);
     }
@@ -289,6 +300,8 @@
       .mobile-bar a:last-child { background: var(--gold); color: var(--navy); }
       body { padding-bottom: 56px; }
       .nav-links { display: none; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-img-wrap { display: none; }
       .services-split, .contact-grid, .row2 { grid-template-columns: 1fr; }
       .ride-grid, .fleet-grid, .drivers-grid { grid-template-columns: 1fr; }
       .stats-row { grid-template-columns: repeat(2, 1fr); }
@@ -322,15 +335,20 @@
   </ul>
 </nav>
 
-<!-- HERO — Car1.jpg background -->
+<!-- HERO — Car1.JPG background, Car2.JPG on right -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="badge">📍 St. Charles &amp; St. Louis Counties · Missouri</div>
-    <h1>Transportation You Can<br><em>Trust Every Time</em></h1>
-    <p>KG Transport provides contracted student and medical transportation across Missouri — safe, professional, and available 24 hours a day, 7 days a week, in all weather conditions.</p>
-    <div class="hero-btns">
-      <a href="#contact" class="btn btn-gold">Request a Ride</a>
-      <a href="tel:+13145550100" class="btn btn-ghost">📞 Call Us Now</a>
+    <div class="hero-text">
+      <div class="badge">📍 St. Charles &amp; St. Louis Counties · Missouri</div>
+      <h1>Transportation You Can<br><em>Trust Every Time</em></h1>
+      <p>KG Transport provides contracted student and medical transportation across Missouri — safe, professional, and available 24 hours a day, 7 days a week, in all weather conditions.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-gold">Request a Ride</a>
+        <a href="tel:+13145550100" class="btn btn-ghost">📞 Call Us Now</a>
+      </div>
+    </div>
+    <div class="hero-img-wrap">
+      <img src="/images/Car2.JPG" alt="KG Transport fleet vehicles" />
     </div>
   </div>
 </section>
@@ -400,7 +418,7 @@
         </ul>
       </div>
       <div class="services-img">
-        <img src="/images/Car2.jpg" alt="KG Transport vehicle" loading="lazy" />
+        <img src="/images/Car2.JPG" alt="KG Transport vehicle" loading="lazy" />
       </div>
     </div>
   </div>
@@ -456,14 +474,14 @@
     <p class="lead">Every vehicle is maintained on a strict scheduled-service program to ensure safety and reliability on every contracted run.</p>
     <div class="fleet-grid" style="grid-template-columns: repeat(2, 1fr);">
       <div class="fleet-card">
-        <img src="/images/Car1.jpg" alt="KG Transport vehicle 1" loading="lazy" />
+        <img src="/images/Car1.JPG" alt="KG Transport vehicle 1" loading="lazy" />
         <div class="fleet-caption">
           <span>Wheelchair Accessible</span>
           Ramp-equipped for safe, dignified boarding
         </div>
       </div>
       <div class="fleet-card">
-        <img src="/images/Car2.jpg" alt="KG Transport vehicle 2" loading="lazy" />
+        <img src="/images/Car2.JPG" alt="KG Transport vehicle 2" loading="lazy" />
         <div class="fleet-caption">
           <span>Vans &amp; SUVs</span>
           Spacious comfort for students &amp; medical passengers
@@ -515,7 +533,7 @@
   </div>
 </section>
 
-<!-- MISSION — Car2.jpg background -->
+<!-- MISSION — Car2.JPG background -->
 <section id="mission">
   <div class="inner">
     <div class="label">Our Mission</div>
