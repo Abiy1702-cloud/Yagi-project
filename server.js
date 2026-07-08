@@ -69,7 +69,7 @@ app.post('/contact', async (req, res) => {
     const ownerResult = await sendBrevoEmail({
       to: process.env.KG_EMAIL,
       toName: 'KG Transportation',
-      subject: `New Ride Request from ${name}`,
+      subject: `Customer Inquiry — ${name}`,
       html: `<div style="font-family:Arial,sans-serif;max-width:560px">
         <div style="background:#0a1f44;padding:20px 28px;border-radius:8px 8px 0 0">
           <h2 style="color:#d4a843;margin:0">New Contact Request</h2>
