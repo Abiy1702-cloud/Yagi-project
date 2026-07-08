@@ -51,7 +51,14 @@ app.get('/health', (req, res) => {
 app.post('/contact', async (req, res) => {
   console.log('📩 /contact hit with body:', req.body);
 
-  const { name, email, phone, service, date, notes } = req.body;
+  const { name, email, phone, service, date, notes, website } = req.body;
+
+  // Honeypot check — bots fill in the hidden 'website' field, humans don't
+  if (website) {
+    console.log('🤖 Bot detected — honeypot field filled. Ignoring submission.');
+    return res.json({ success: true, message: "Request sent! We'll be in touch soon." });
+  }
+
   if (!name || !email || !phone) {
     console.log('⚠️ Validation failed — missing required field(s).');
     return res.status(400).json({ success: false, message: 'Please fill in all required fields.' });
@@ -101,7 +108,7 @@ app.post('/contact', async (req, res) => {
             ${notes ? `<p style="margin:4px 0;font-size:14px"><strong>Notes:</strong> ${notes.replace(/\n/g,'<br>')}</p>` : ''}
             <p style="margin:4px 0;font-size:14px"><strong>Phone on File:</strong> ${phone}</p>
           </div>
-          <p>For urgent needs, please call or text us directly at <a href="tel:+13145550100" style="color:#0a1f44">(314) 555-0100</a>.</p>
+          <p>For urgent needs, please call or text us directly at <a href="tel:+16364435037" style="color:#0a1f44">(636) 443-5037</a>.</p>
           <p style="color:#888;font-size:13px;margin-top:24px">— The KG Transportation Team · St. Louis &amp; St. Charles Counties, MO</p>
         </div>
       </div>`,

@@ -293,7 +293,8 @@
     .footer-col a:hover { color: var(--white); }
     .footer-bottom { max-width: 1060px; margin: 0 auto; padding-top: 22px; text-align: center; font-size: 12px; color: rgba(255,255,255,.35); }
 
-    /* MOBILE STICKY BAR */
+    /* Honeypot — hidden from real users, bots fill it in */
+    .hp-field { display: none !important; }
     .mobile-bar { display: none; }
     @media (max-width: 768px) {
       .mobile-bar {
@@ -353,7 +354,7 @@
       <p>KG Transport provides contracted student and medical transportation across Missouri — safe, professional, and available 24 hours a day, 7 days a week, in all weather conditions.</p>
       <div class="hero-btns">
         <a href="#request-form" class="btn btn-gold">Request a Ride</a>
-        <a href="tel:+13145550100" class="btn btn-ghost">📞 Call Us Now</a>
+        <a href="tel:+16364435037" class="btn btn-ghost">📞 Call Us Now</a>
       </div>
     </div>
     <div class="hero-img-wrap">
@@ -554,7 +555,7 @@
     </div>
     <div class="mission-cta">
       <a href="#request-form" class="btn btn-gold">Inquire About a Contract</a>
-      <a href="tel:+13145550100" class="btn btn-ghost">📞 (314) 555-0100</a>
+      <a href="tel:+16364435037" class="btn btn-ghost">📞 (636) 443-5037</a>
     </div>
   </div>
 </section>
@@ -569,15 +570,19 @@
       <div>
         <div class="info-block">
           <div class="info-icon">📞</div>
-          <div><strong>Phone / Text</strong><a href="tel:+13145550100">(314) 555-0100</a></div>
+          <div><strong>Phone / Text</strong><a href="tel:+16364435037">(636) 443-5037</a></div>
         </div>
         <div class="info-block">
           <div class="info-icon">✉️</div>
-          <div><strong>Email</strong><a href="mailto:info@kgtransportation.com">info@kgtransportation.com</a></div>
+          <div><strong>Email</strong><a href="mailto:info@kgtransportllc.com">info@kgtransportllc.com</a></div>
         </div>
         <div class="info-block">
           <div class="info-icon">📍</div>
           <div><strong>Service Area</strong><p>St. Charles &amp; St. Louis Counties, Missouri</p></div>
+        </div>
+        <div class="info-block">
+          <div class="info-icon">🏢</div>
+          <div><strong>Office Address</strong><p>33 Mallard Pointe Dr<br>O'Fallon, MO 63368</p></div>
         </div>
         <div class="info-block">
           <div class="info-icon">🕐</div>
@@ -599,7 +604,7 @@
             </div>
             <div class="fg">
               <label>Phone <span class="r">*</span></label>
-              <input name="phone" type="tel" placeholder="(314) 555-0000" required />
+              <input name="phone" type="tel" placeholder="(636) 443-5037" required />
             </div>
           </div>
           <div class="fg">
@@ -625,6 +630,11 @@
           <div class="fg">
             <label>Notes</label>
             <textarea name="notes" placeholder="Organization name, number of passengers, pickup locations, frequency of service…"></textarea>
+          </div>
+          <!-- Honeypot — invisible to humans, bots fill this in -->
+          <div class="hp-field">
+            <label>Leave this empty</label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" />
           </div>
           <button class="submit" id="btn" type="submit">Submit Inquiry →</button>
           <div class="msg" id="msg"></div>
@@ -657,8 +667,8 @@
     <div class="footer-col">
       <h4>Contact</h4>
       <ul>
-        <li><a href="tel:+13145550100">(314) 555-0100</a></li>
-        <li><a href="mailto:info@kgtransportation.com">info@kgtransportation.com</a></li>
+        <li><a href="tel:+16364435037">(636) 443-5037</a></li>
+        <li><a href="mailto:info@kgtransportllc.com">info@kgtransportllc.com</a></li>
         <li><a href="#contact">Send a Message</a></li>
         <li>Open 24/7 · 365 Days</li>
       </ul>
@@ -671,7 +681,7 @@
 
 <!-- MOBILE STICKY BAR -->
 <div class="mobile-bar">
-  <a href="tel:+13145550100">📞 Call Now</a>
+  <a href="tel:+16364435037">📞 Call Now</a>
   <a href="#request-form">📝 Request a Ride</a>
 </div>
 
@@ -699,6 +709,7 @@
           service: f.service.value,
           date: f.date.value,
           notes: f.notes.value.trim(),
+          website: f.website.value, // honeypot
         }),
       });
       const d = await res.json();
